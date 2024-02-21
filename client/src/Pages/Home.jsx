@@ -12,13 +12,6 @@ const Home = () => {
 
   const [search, setSearch] = useState("");
 
-  // const searchdata = () => {
-  //   Axios.get(`http://localhost:3001/getdata/${title}`).then((response) => {
-  //     setTitle(response.data);
-  //     console.log("Data :", response);
-  //   });
-  // };
-
   function showlist() {
     if (!showdetails) {
       Axios.get("http://localhost:3001/getdata").then((response) => {
@@ -70,7 +63,7 @@ const Home = () => {
   };
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-gray-200">
+    <div className="flex flex-col items-center justify-center h-full">
       <label className="h-creen w-[50vw] pb-5" htmlFor="search">
         <h2 className="mt-10">Search data</h2>
         <input
@@ -101,7 +94,11 @@ const Home = () => {
                 {booklist
                   .filter((book) => {
                     const searchitem = search.toLowerCase();
-                    return book.title.toLowerCase().includes(searchitem);
+                    return (
+                      book.title.toLowerCase().includes(searchitem) ||
+                      book.author.toLowerCase().includes(searchitem) ||
+                      book.subject.toLowerCase().includes(searchitem)
+                    );
                   })
                   .map((book) => (
                     <tr key={book.id}>
@@ -122,6 +119,21 @@ const Home = () => {
                       </td>
                     </tr>
                   ))}
+                {booklist.length > 0 &&
+                  booklist.filter((book) => {
+                    const searchitem = search.toLowerCase();
+                    return (
+                      book.title.toLowerCase().includes(searchitem) ||
+                      book.author.toLowerCase().includes(searchitem) ||
+                      book.subject.toLowerCase().includes(searchitem)
+                    );
+                  }).length === 0 && (
+                    <tr>
+                      <td colSpan="5" className="py-2 px-4 border text-center">
+                        No result
+                      </td>
+                    </tr>
+                  )}
               </tbody>
             </table>
           </div>
@@ -131,7 +143,7 @@ const Home = () => {
         className="bg-zinc-600 shadow-md rounded pt-6 px-10 mb-4 pb-8 w-[80vw]"
         onSubmit={handleSubmit}
       >
-        <h1>Books details</h1>
+        <h1 className="text-gray-100">Books details</h1>
         <div className="grid px-4 py-4">
           <label htmlFor="title">
             <b>Title:</b>
