@@ -57,7 +57,7 @@ const Home = () => {
     })
       .then(() => {
         console.log("inserted successfully");
-        alert("Form submitted successfully");
+        alert("Book details added");
       })
       .catch((error) => console.log(error));
   };

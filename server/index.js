@@ -1,9 +1,11 @@
 import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
-
+import jwt from "jsonwebtoken";
 const app = express();
 
+app.use(express.json({ limit: "30mb", extended: true }));
+app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(express.json());
 app.use(cors());
 
@@ -22,6 +24,78 @@ db.connect((err) => {
   console.log("database connection success");
 });
 
+//auth
+app.post("/signup", (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const checkemail = "select * from user where email=?";
+  db.query(checkemail, [email], (err, data) => {
+    if (err) {
+      return res.status(500).json({ Error: err.message });
+    }
+    if (data.length > 0) {
+      return res
+        .status(400)
+        .json({ Error: "User with is email already registered" });
+    } else {
+      const sqlinsert = "insert into user (name,email,password) values(?,?,?)";
+      db.query(sqlinsert, [name, email, password], (err, result) => {
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+        console.log(result);
+        res.status(200).send("Data inserted successfully");
+      });
+    }
+  });
+});
+
+app.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const sqlinsert = "select * from user where email=?";
+  db.query(sqlinsert, [email], (err, data) => {
+    if (err) {
+      console.error("Error in database query:", err);
+      return res.json({ Error: "Internal Email Error" });
+    }
+
+    if (email.trim() === "" || password.trim() === "") {
+      return res.json({
+        Status: "Error",
+        Error: "Please enter both email and password.",
+      });
+    }
+    if (data.length > 0) {
+      try {
+        const checkpass = req.body.password;
+        const password = data[0].password;
+        const compare = checkpass.localeCompare(password);
+        console.log(compare);
+        if (compare == 0) {
+          const token = jwt.sign(
+            { email: req.body.email, password: data[0].password },
+            "test",
+            { expiresIn: "1h" }
+          );
+          return res.json({ Status: "Success", token });
+        } else {
+          return res.json({ Error: "Password not matched" });
+        }
+      } catch (error) {
+        return res.json({ Error: `Internal Logging Error ${error}` });
+      }
+    } else {
+      return res.json({ Error: "Email Not Existed" });
+      // return res.json({Error:"Password not matched"})
+    }
+  });
+});
+
+//bookdetails
 app.post("/insertdata", (req, res) => {
   const title = req.body.title;
   const author = req.body.author;
