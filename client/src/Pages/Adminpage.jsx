@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Axios from "axios";
-// import { Link } from "react-router-dom";
 
-const Home = () => {
+const Adminpage = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [subject, setSubject] = useState("");
   const [pdate, setPdate] = useState("");
+  const [cost, setCost] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [booklist, setBooklist] = useState([]);
   const [showdetails, setShowdetails] = useState(false);
 
@@ -43,9 +44,9 @@ const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(title, author, subject, pdate);
+    console.log(title, author, subject, pdate, cost, quantity);
 
-    if (!title || !subject || !author || !pdate) {
+    if (!title || !subject || !author || !pdate || !cost || !quantity) {
       alert("fill all the fields");
       return;
     }
@@ -54,6 +55,8 @@ const Home = () => {
       author,
       subject,
       pdate,
+      cost,
+      quantity,
     })
       .then(() => {
         console.log("inserted successfully");
@@ -62,24 +65,78 @@ const Home = () => {
       .catch((error) => console.log(error));
   };
 
+  // //edit book
+  // const [editMode, setEditMode] = useState(false);
+  // const [editedBook, setEditedBook] = useState({
+  //   id: "",
+  //   title: "",
+  //   author: "",
+  //   subject: "",
+  //   pdate: "",
+  //   cost: "",
+  //   quantity: "",
+  // });
+
+  // const handleEditClick = (book) => {
+  //   setEditMode(true);
+  //   setEditedBook({
+  //     id: book.id,
+  //     title: book.title,
+  //     author: book.author,
+  //     subject: book.subject,
+  //     pdate: book.pdate,
+  //     cost: book.cost,
+  //     quantity: book.quantity,
+  //   });
+  // };
+
+  // const handleEditSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   // Send PUT request to update book details
+  //   Axios.put(`http://localhost:3001/editbook/${editedBook.id}`, editedBook)
+  //     .then((response) => {
+  //       if (response.data.Status === "Success") {
+  //         alert("Book details updated successfully");
+  //         // Optionally, fetch updated data from the server
+  //         showlist();
+  //       } else {
+  //         alert(`Error: ${response.data.Error}`);
+  //       }
+  //       setEditMode(false);
+  //       setEditedBook({
+  //         id: "",
+  //         title: "",
+  //         author: "",
+  //         subject: "",
+  //         pdate: "",
+  //         cost: "",
+  //         quantity: "",
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error updating book details:", error);
+  //     });
+  // };
+
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <label className="h-creen w-[50vw] pb-5" htmlFor="search">
-        <h2 className="mt-10">Search data</h2>
-        <input
-          type="text"
-          name="search"
-          id="search"
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-          className="py-1 px-2 rounded-md shadow-md focus:outline-none focus:ring focus:border-blue-500"
-          required
-        />
-      </label>
       <div className="mb-8">
         {showdetails && (
           <div className="mt-5">
+            <label className="h-creen w-[50vw] pb-5" htmlFor="search">
+              <h2 className="mt-10">Search data</h2>
+              <input
+                type="text"
+                name="search"
+                id="search"
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+                className="py-1 px-2 rounded-md shadow-md focus:outline-none focus:ring focus:border-blue-500"
+                required
+              />
+            </label>
             <table className="w-full border-collapse border border-gray-200 rounded-md">
               <thead>
                 <tr className="bg-gray-300">
@@ -87,6 +144,8 @@ const Home = () => {
                   <th className="py-2 px-4 border">Author</th>
                   <th className="py-2 px-4 border">Subject</th>
                   <th className="py-2 px-4 border">Publish date</th>
+                  <th className="py-2 px-4 border">Cost</th>
+                  <th className="py-2 px-4 border">Quantity</th>
                   <th className="py-2 px-4 border">Action</th>
                 </tr>
               </thead>
@@ -106,6 +165,17 @@ const Home = () => {
                       <td className="py-2 px-4 border">{book.author}</td>
                       <td className="py-2 px-4 border">{book.subject} </td>
                       <td className="py-2 px-4 border">{book.pdate} </td>
+                      <td className="py-2 px-4 border">{book.cost} </td>
+                      <td className="py-2 px-4 border">{book.quantity} </td>
+                      {/* <td>
+                        <button
+                          type="button"
+                          className="hover:bg-blue-300 text-gray-800 font-bold py-1 px-2 rounded-md transition-colors uppercase text-center"
+                           onClick={() => handleEditClick(book)}
+                        >
+                          Edit
+                        </button>
+                      </td> */}
                       <td>
                         <button
                           type="button"
@@ -136,14 +206,20 @@ const Home = () => {
                   )}
               </tbody>
             </table>
+            {/* {editMode && (
+              <form onSubmit={handleEditSubmit}>
+              
+                <button type="submit">Save Changes</button>
+              </form>
+            )} */}
           </div>
         )}
       </div>
       <form
-        className="bg-zinc-600 shadow-md rounded pt-6 px-10 mb-4 pb-8 w-[80vw]"
+        className="bg-zinc-600 shadow-md rounded pt-6 px-10 mb-4 pb-8 w-[80vw] mt-20"
         onSubmit={handleSubmit}
       >
-        <h1 className="text-gray-100">Books details</h1>
+        <h1 className="text-gray-100">Add a Book</h1>
         <div className="grid px-4 py-4">
           <label htmlFor="title">
             <b>Title:</b>
@@ -200,6 +276,32 @@ const Home = () => {
               required
             />
           </label>
+          <label htmlFor="cost">
+            <b>Cost:</b>
+            <input
+              type="number"
+              name="cost"
+              id="cost"
+              onChange={(e) => {
+                setCost(e.target.value);
+              }}
+              className="py-1 px-2 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-500"
+              required
+            />
+          </label>
+          <label htmlFor="quantity">
+            <b>Quantity:</b>
+            <input
+              type="number"
+              name="quantity"
+              id="quantity"
+              onChange={(e) => {
+                setQuantity(e.target.value);
+              }}
+              className="py-1 px-2 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-500"
+              required
+            />
+          </label>
           <br />
           <div className="flex space-x-4">
             <button
@@ -213,8 +315,7 @@ const Home = () => {
               onClick={showlist}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-md transition-colors uppercase block ml-4 text-center"
             >
-              {/* <Link to="/searchdetails">Search Books</Link> */}
-              {showdetails ? "Hide Details" : "Show Details"}
+              {showdetails ? "Hide Details" : "Book Details"}
             </button>
           </div>
         </div>
@@ -223,4 +324,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Adminpage;

@@ -101,18 +101,24 @@ app.post("/insertdata", (req, res) => {
   const author = req.body.author;
   const subject = req.body.subject;
   const pdate = req.body.pdate;
+  const cost = req.body.cost;
+  const quantity = req.body.quantity;
 
   const sqlinsert =
-    "insert into booktable(title,author,subject,pdate) values(?,?,?,?)";
-  db.query(sqlinsert, [title, author, subject, pdate], (err, result) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-      console.log("query error");
+    "insert into booktable(title,author,subject,pdate,cost,quantity) values(?,?,?,?,?,?)";
+  db.query(
+    sqlinsert,
+    [title, author, subject, pdate, cost, quantity],
+    (err, result) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+        console.log("query error");
+      }
+      console.log(result);
+      res.status(200).send("Data inserted successfully");
     }
-    console.log(result);
-    res.status(200).send("Data inserted successfully");
-  });
+  );
 });
 
 app.get("/getdata", (req, res) => {
@@ -126,10 +132,10 @@ app.get("/getdata", (req, res) => {
   });
 });
 
-app.get(`/getdata/:title`, (req, res) => {
+app.get("/getdata/:title", (req, res) => {
   const title = req.params.title;
   const titleselect = "select * from booktable where author=?";
-  db.query(titleselect, (err, result) => {
+  db.query(titleselect, title, (err, result) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;
@@ -149,6 +155,60 @@ app.delete("/deletedetail/:title", (req, res) => {
       console.log(result);
       res.status(200).send("Successfully deleted");
     }
+  });
+});
+
+//edit book details
+// app.put("/editbook/:bookid", (req, res) => {
+//   const bookid = req.params.bookid;
+//   const { title, author, subject, pdate, cost, quantity } = req.body;
+
+//   const sqlUpdate =
+//     "UPDATE booktable SET title=?, author=?, subject=?, pdate=?, cost=?, quantity=? WHERE bookid=?";
+//   db.query(
+//     sqlUpdate,
+//     [title, author, subject, pdate, cost, quantity, bookId],
+//     (err, result) => {
+//       if (err) {
+//         console.error(err);
+//         res.status(500).send("Internal Server Error");
+//       } else {
+//         console.log(result);
+//         res.status(200).json({ Status: "Success", result });
+//       }
+//     }
+//   );
+// });
+
+//borrow books
+app.post("/borrowbook", (req, res) => {
+  const title = req.body.title;
+  const quantity = req.body.quantity;
+
+  const sqlUpdate =
+    "UPDATE booktable SET quantity = quantity - ? WHERE title = ?";
+  db.query(sqlUpdate, [quantity, title], (err, result) => {
+    if (err) {
+      console.error("Error updating book quantity:", err);
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    console.log(result);
+    res.status(200).send("Book borrowed successfully");
+  });
+});
+
+app.get("/getBorrowedBooks", (req, res) => {
+  const sqlSelectBorrowedBooks = "SELECT * FROM booktable WHERE quantity < 5";
+
+  db.query(sqlSelectBorrowedBooks, (err, result) => {
+    if (err) {
+      console.error("Error fetching borrowed books:", err);
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    res.json(result);
   });
 });
 

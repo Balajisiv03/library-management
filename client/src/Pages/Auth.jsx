@@ -10,12 +10,12 @@ const Auth = () => {
 
   const navigate = useNavigate();
 
-  const gotohome = () => {
-    navigate("Home");
+  const gotoAdmin = () => {
+    navigate("Adminpage", { state: { email } });
   };
 
-  const gotoadmin = () => {
-    navigate("Admpage");
+  const gotoUser = () => {
+    navigate("Userpage");
   };
 
   const handlebtn = () => {
@@ -40,7 +40,7 @@ const Auth = () => {
             if (response.data.Status === "Success") {
               alert("Sign up success");
               console.log("Insert successful:", response.data);
-              gotohome();
+              gotoUser();
             } else {
               //to check user is already registered
               alert(`Error: ${response.data.Error}`);
@@ -58,7 +58,7 @@ const Auth = () => {
       //adminlogin
 
       if (email === "admin@gmail.com" && password === "admin") {
-        gotoadmin();
+        gotoAdmin();
       }
 
       //userlogin
@@ -70,7 +70,7 @@ const Auth = () => {
           .then((response) => {
             if (response.data && response.data.Status === "Success") {
               alert("Login successful!");
-              navigate("/HomePage");
+              navigate("/Userpage");
             } else {
               alert(`Error: ${response.data.Error}`);
             }
