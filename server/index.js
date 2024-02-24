@@ -158,28 +158,6 @@ app.delete("/deletedetail/:title", (req, res) => {
   });
 });
 
-//edit book details
-// app.put("/editbook/:bookid", (req, res) => {
-//   const bookid = req.params.bookid;
-//   const { title, author, subject, pdate, cost, quantity } = req.body;
-
-//   const sqlUpdate =
-//     "UPDATE booktable SET title=?, author=?, subject=?, pdate=?, cost=?, quantity=? WHERE bookid=?";
-//   db.query(
-//     sqlUpdate,
-//     [title, author, subject, pdate, cost, quantity, bookId],
-//     (err, result) => {
-//       if (err) {
-//         console.error(err);
-//         res.status(500).send("Internal Server Error");
-//       } else {
-//         console.log(result);
-//         res.status(200).json({ Status: "Success", result });
-//       }
-//     }
-//   );
-// });
-
 //borrow books
 app.post("/borrowbook", (req, res) => {
   const title = req.body.title;
@@ -199,18 +177,25 @@ app.post("/borrowbook", (req, res) => {
 });
 
 app.get("/getBorrowedBooks", (req, res) => {
-  const sqlSelectBorrowedBooks = "SELECT * FROM booktable WHERE quantity < 5";
+  const sqlSelectBorrowedBooks = "SELECT * FROM booktable";
 
   db.query(sqlSelectBorrowedBooks, (err, result) => {
     if (err) {
       console.error("Error fetching borrowed books:", err);
       res.status(500).json({ error: err.message });
-      return;
+      return res.send(result);
     }
 
     res.json(result);
   });
 });
+// app.get("/getBorrowedBooks", (req, res) => {
+//   const sql = "SELECT * FROM booktable";
+//   db.query(sql, (err, data) => {
+//     if (err) return res.send(err);
+//     return res.send(data);
+//   });
+// });
 
 app.listen(3001, () => {
   console.log("server is running on port 3001");

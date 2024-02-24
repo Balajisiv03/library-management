@@ -5,7 +5,6 @@ const BorrowedBooksPage = () => {
   const [borrowedBooks, setBorrowedBooks] = useState([]);
 
   useEffect(() => {
-    // Fetch borrowed book data when the component mounts
     Axios.get("http://localhost:3001/getBorrowedBooks")
       .then((response) => {
         setBorrowedBooks(response.data);
@@ -14,7 +13,7 @@ const BorrowedBooksPage = () => {
       .catch((error) => {
         console.error("Error fetching borrowed books:", error.message);
       });
-  }, []); // The empty dependency array ensures that this effect runs only once when the component mounts
+  }, []);
 
   return (
     <div>

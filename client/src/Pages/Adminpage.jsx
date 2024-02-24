@@ -65,60 +65,6 @@ const Adminpage = () => {
       .catch((error) => console.log(error));
   };
 
-  // //edit book
-  // const [editMode, setEditMode] = useState(false);
-  // const [editedBook, setEditedBook] = useState({
-  //   id: "",
-  //   title: "",
-  //   author: "",
-  //   subject: "",
-  //   pdate: "",
-  //   cost: "",
-  //   quantity: "",
-  // });
-
-  // const handleEditClick = (book) => {
-  //   setEditMode(true);
-  //   setEditedBook({
-  //     id: book.id,
-  //     title: book.title,
-  //     author: book.author,
-  //     subject: book.subject,
-  //     pdate: book.pdate,
-  //     cost: book.cost,
-  //     quantity: book.quantity,
-  //   });
-  // };
-
-  // const handleEditSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   // Send PUT request to update book details
-  //   Axios.put(`http://localhost:3001/editbook/${editedBook.id}`, editedBook)
-  //     .then((response) => {
-  //       if (response.data.Status === "Success") {
-  //         alert("Book details updated successfully");
-  //         // Optionally, fetch updated data from the server
-  //         showlist();
-  //       } else {
-  //         alert(`Error: ${response.data.Error}`);
-  //       }
-  //       setEditMode(false);
-  //       setEditedBook({
-  //         id: "",
-  //         title: "",
-  //         author: "",
-  //         subject: "",
-  //         pdate: "",
-  //         cost: "",
-  //         quantity: "",
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error updating book details:", error);
-  //     });
-  // };
-
   return (
     <div className="flex flex-col items-center justify-center h-full">
       <div className="mb-8">
@@ -167,15 +113,7 @@ const Adminpage = () => {
                       <td className="py-2 px-4 border">{book.pdate} </td>
                       <td className="py-2 px-4 border">{book.cost} </td>
                       <td className="py-2 px-4 border">{book.quantity} </td>
-                      {/* <td>
-                        <button
-                          type="button"
-                          className="hover:bg-blue-300 text-gray-800 font-bold py-1 px-2 rounded-md transition-colors uppercase text-center"
-                           onClick={() => handleEditClick(book)}
-                        >
-                          Edit
-                        </button>
-                      </td> */}
+
                       <td>
                         <button
                           type="button"
@@ -199,19 +137,13 @@ const Adminpage = () => {
                     );
                   }).length === 0 && (
                     <tr>
-                      <td colSpan="5" className="py-2 px-4 border text-center">
+                      <td colSpan="7" className="py-2 px-4 border text-center">
                         No result
                       </td>
                     </tr>
                   )}
               </tbody>
             </table>
-            {/* {editMode && (
-              <form onSubmit={handleEditSubmit}>
-              
-                <button type="submit">Save Changes</button>
-              </form>
-            )} */}
           </div>
         )}
       </div>
