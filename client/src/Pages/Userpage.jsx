@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -12,6 +13,11 @@ const Userpage = () => {
   });
 
   const [borrowSuccess, setBorrowSuccess] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate("/");
+  };
 
   useEffect(() => {
     Axios.get("http://localhost:3001/getdata")
@@ -29,6 +35,22 @@ const Userpage = () => {
 
     if (!title || !author || quantity <= 0) {
       alert("Please fill in all fields and provide a valid quantity.");
+      return;
+    }
+
+    const bookToBorrow = booklist.find(
+      (book) => book.title === title && book.author === author
+    );
+
+    // Check if the book exists
+    if (!bookToBorrow) {
+      alert("The specified book does not exist.");
+      return;
+    }
+
+    // Check if the requested quantity is available
+    if (quantity > bookToBorrow.quantity) {
+      alert("The requested quantity exceeds available stock.");
       return;
     }
 
@@ -189,6 +211,13 @@ const Userpage = () => {
       <Link to="/borrowed-books" className="my-4 text-blue-500">
         View Borrowed Books
       </Link>
+      <button
+        onClick={handleLogout}
+        type="submit"
+        className=" mt-5 text-slate-900 hover:bg-blue-500"
+      >
+        Log out
+      </button>
     </div>
   );
 };
