@@ -37,7 +37,7 @@ const Auth = () => {
           password,
         })
           .then((response) => {
-            if (response.data.Status === "Success") {
+            if (!response.data.error) {
               alert("Sign up success");
               console.log("Insert successful:", response.data);
               gotoUser();

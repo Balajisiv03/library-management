@@ -30,26 +30,35 @@ app.post("/signup", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const checkemail = "select * from user where email=?";
+  // Validate inputs (you can add more validation as needed)
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: "Invalid input data" });
+  }
+
+  const checkemail = "SELECT * FROM user WHERE email=?";
   db.query(checkemail, [email], (err, data) => {
     if (err) {
-      return res.status(500).json({ Error: err.message });
+      console.error("Error checking email:", err);
+      return res.status(500).json({ error: "Internal server error" });
     }
+
     if (data.length > 0) {
       return res
         .status(400)
-        .json({ Error: "User with is email already registered" });
-    } else {
-      const sqlinsert = "insert into user (name,email,password) values(?,?,?)";
-      db.query(sqlinsert, [name, email, password], (err, result) => {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        console.log(result);
-        res.status(200).send("Data inserted successfully");
-      });
+        .json({ error: "User with this email already registered" });
     }
+
+    const sqlinsert =
+      "INSERT INTO user (name, email, password) VALUES (?, ?, ?)";
+    db.query(sqlinsert, [name, email, password], (err, result) => {
+      if (err) {
+        console.error("Error inserting data:", err);
+        return res.status(500).json({ error: "Internal server error" });
+      }
+
+      console.log(result);
+      res.status(200).send("Data inserted successfully");
+    });
   });
 });
 
