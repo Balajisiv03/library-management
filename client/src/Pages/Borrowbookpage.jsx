@@ -10,6 +10,11 @@ const BorrowedBooksPage = () => {
     navigate("/Userpage");
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   useEffect(() => {
     Axios.get("http://localhost:3001/getBorrowedBooks")
       .then((response) => {
@@ -30,14 +35,18 @@ const BorrowedBooksPage = () => {
             <tr className="bg-gray-300">
               <th className="py-2 px-4 border">Title</th>
               <th className="py-2 px-4 border">Author</th>
+              <th className="py-2 px-4 border">Publish Date</th>
               {/* Add other necessary columns */}
             </tr>
           </thead>
           <tbody>
             {borrowedBooks.map((book) => (
               <tr key={book.id}>
-                <td className="py-2 px-4 border">{book.title}</td>
-                <td className="py-2 px-4 border">{book.author}</td>
+                <td className="py-2 px-4 border text-center">{book.title}</td>
+                <td className="py-2 px-4 border text-center">{book.author}</td>
+                <td className="py-2 px-4 border text-center">
+                  {formatDate(book.pdate)}
+                </td>
                 {/* Add other necessary columns */}
               </tr>
             ))}
@@ -47,7 +56,7 @@ const BorrowedBooksPage = () => {
       <button
         onClick={gotouserpage}
         type="submit"
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-colors uppercase block ml-4 text-center"
+        className="mt-10 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md transition-colors uppercase block ml-4 text-center"
       >
         Prev Page
       </button>

@@ -18,6 +18,10 @@ const Userpage = () => {
   const handleLogout = () => {
     navigate("/");
   };
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   useEffect(() => {
     Axios.get("http://localhost:3001/getdata")
@@ -56,6 +60,7 @@ const Userpage = () => {
 
     Axios.post("http://localhost:3001/borrowbook", {
       title,
+      author,
       quantity,
     })
       .then((response) => {
@@ -123,12 +128,18 @@ const Userpage = () => {
             })
             .map((book) => (
               <tr key={book.id}>
-                <td className="py-2 px-4 border">{book.title}</td>
-                <td className="py-2 px-4 border">{book.author}</td>
-                <td className="py-2 px-4 border">{book.subject} </td>
-                <td className="py-2 px-4 border">{book.pdate} </td>
-                <td className="py-2 px-4 border">{book.cost} </td>
-                <td className="py-2 px-4 border">{book.quantity} </td>
+                <td className="py-2 px-4 border text-center">{book.title}</td>
+                <td className="py-2 px-4 border text-center">{book.author}</td>
+                <td className="py-2 px-4 border text-center">
+                  {book.subject}{" "}
+                </td>
+                <td className="py-2 px-4 border text-center">
+                  {formatDate(book.pdate)}
+                </td>
+                <td className="py-2 px-4 border text-center">{book.cost} </td>
+                <td className="py-2 px-4 border text-center">
+                  {book.quantity}{" "}
+                </td>
               </tr>
             ))}
           {booklist.length > 0 &&
@@ -214,7 +225,7 @@ const Userpage = () => {
       <button
         onClick={handleLogout}
         type="submit"
-        className=" mt-5 text-slate-900 hover:bg-blue-500"
+        className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
       >
         Log out
       </button>

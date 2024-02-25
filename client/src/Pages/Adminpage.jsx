@@ -36,6 +36,11 @@ const Adminpage = () => {
     navigate("/");
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-full container mx-auto">
       <div className="mb-8">
@@ -75,12 +80,20 @@ const Adminpage = () => {
               })
               .map((book) => (
                 <tr key={book.id}>
-                  <td className="py-2 px-4 border">{book.title}</td>
-                  <td className="py-2 px-4 border">{book.author}</td>
-                  <td className="py-2 px-4 border">{book.subject}</td>
-                  <td className="py-2 px-4 border">{book.pdate}</td>
-                  <td className="py-2 px-4 border">{book.cost}</td>
-                  <td className="py-2 px-4 border">{book.quantity}</td>
+                  <td className="py-2 px-4 border text-center">{book.title}</td>
+                  <td className="py-2 px-4 border text-center">
+                    {book.author}
+                  </td>
+                  <td className="py-2 px-4 border text-center">
+                    {book.subject}
+                  </td>
+                  <td className="py-2 px-4 border text-center">
+                    {formatDate(book.pdate)}
+                  </td>
+                  <td className="py-2 px-4 border text-center">{book.cost}</td>
+                  <td className="py-2 px-4 border text-center">
+                    {book.quantity}
+                  </td>
                   <td>
                     <button
                       type="button"
