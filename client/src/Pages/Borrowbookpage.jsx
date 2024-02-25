@@ -36,6 +36,8 @@ const BorrowedBooksPage = () => {
               <th className="py-2 px-4 border">Title</th>
               <th className="py-2 px-4 border">Author</th>
               <th className="py-2 px-4 border">Publish Date</th>
+              <th className="py-2 px-4 border">Total Cost</th>
+
               {/* Add other necessary columns */}
             </tr>
           </thead>
@@ -47,6 +49,7 @@ const BorrowedBooksPage = () => {
                 <td className="py-2 px-4 border text-center">
                   {formatDate(book.pdate)}
                 </td>
+                <td className="py-2 px-4 border text-center">{book.cost}</td>
                 {/* Add other necessary columns */}
               </tr>
             ))}

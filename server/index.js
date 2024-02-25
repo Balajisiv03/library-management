@@ -206,6 +206,39 @@ app.get("/getBorrowedBooks", (req, res) => {
 //   });
 // });
 
+// get all reviews
+app.get("/getreviews", (req, res) => {
+  const sqlSelectReviews = "SELECT * FROM reviewtable";
+
+  db.query(sqlSelectReviews, (err, result) => {
+    if (err) {
+      console.error("Error fetching reviews:", err);
+      res.status(500).json({ error: err.message });
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+//post a review
+app.post("/postreview", (req, res) => {
+  const { title, author, review, rating } = req.body;
+
+  const sqlInsertReview =
+    "INSERT INTO reviewtable (title, author, review,rating) VALUES (?, ?,?, ?)";
+  db.query(sqlInsertReview, [title, author, review, rating], (err, result) => {
+    if (err) {
+      console.error("Error posting review:", err);
+      res.status(500).json({ error: err.message });
+    } else {
+      res.json({
+        message: "Review posted successfully",
+        reviewId: result.insertId,
+      });
+    }
+  });
+});
+
 app.listen(3001, () => {
   console.log("server is running on port 3001");
 });

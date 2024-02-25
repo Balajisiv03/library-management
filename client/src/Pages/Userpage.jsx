@@ -211,7 +211,7 @@ const Userpage = () => {
         </label>
         <button
           type="submit"
-          className=" mt-5 text-slate-900 hover:bg-blue-500"
+          className=" mt-5 text-slate-900 px-1 py-1 hover:bg-blue-500 rounded-md"
         >
           Borrow Book
         </button>
@@ -219,16 +219,31 @@ const Userpage = () => {
       {borrowSuccess && (
         <div className="text-green-600 mt-2">Book borrowed successfully!</div>
       )}
-      <Link to="/borrowed-books" className="my-4 text-blue-500">
-        View Borrowed Books
-      </Link>
-      <button
-        onClick={handleLogout}
-        type="submit"
-        className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
-      >
-        Log out
-      </button>
+      <div className="flex space-x-4">
+        <Link
+          to="/borrowed-books"
+          className="my-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-300"
+        >
+          View Borrowed Books
+        </Link>
+        <Link
+          to={{
+            pathname: "/Reviewbook",
+            state: { title: "Book Title", author: "Author Name" },
+          }}
+          className="my-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700 transition duration-300"
+        >
+          Review a Book
+        </Link>
+
+        <button
+          onClick={handleLogout}
+          type="submit"
+          className=" bg-gray-500 hover:bg-gray-700 text-white font-bold my-4 px-4 py-2 rounded transition duration-300 ease-in-out"
+        >
+          Log out
+        </button>
+      </div>
     </div>
   );
 };

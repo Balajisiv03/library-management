@@ -38,6 +38,7 @@ const Auth = () => {
         })
           .then((response) => {
             if (!response.data.error) {
+              // Check for the absence of error in response data
               alert("Sign up success");
               console.log("Insert successful:", response.data);
               gotoUser();
