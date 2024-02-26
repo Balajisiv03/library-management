@@ -185,27 +185,6 @@ app.post("/borrowbook", (req, res) => {
   });
 });
 
-app.get("/getBorrowedBooks", (req, res) => {
-  const sqlSelectBorrowedBooks = "SELECT * FROM booktable";
-
-  db.query(sqlSelectBorrowedBooks, (err, result) => {
-    if (err) {
-      console.error("Error fetching borrowed books:", err);
-      res.status(500).json({ error: err.message });
-      return res.send(result);
-    }
-
-    res.json(result);
-  });
-});
-// app.get("/getBorrowedBooks", (req, res) => {
-//   const sql = "SELECT * FROM booktable";
-//   db.query(sql, (err, data) => {
-//     if (err) return res.send(err);
-//     return res.send(data);
-//   });
-// });
-
 // get all reviews
 app.get("/getreviews", (req, res) => {
   const sqlSelectReviews = "SELECT * FROM reviewtable";

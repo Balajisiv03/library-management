@@ -52,7 +52,7 @@ const Reviewbook = () => {
   };
 
   return (
-    <div className="container mx-auto my-8 p-4 bg-gray-100 rounded-md shadow-md">
+    <div className="container mx-auto my-8 p-4 bg-gray-200 rounded-md shadow-md">
       <h1 className="text-3xl font-semibold mb-6">Book Reviews</h1>
 
       <div className="mb-8">
@@ -123,9 +123,12 @@ const Reviewbook = () => {
 
       <div>
         <h2 className="text-xl font-semibold mb-4">All Reviews</h2>
-        <ul className="space-y-4">
+        <ul className="space-y-4 flex flex-row space-x-10">
           {reviews.map((review) => (
-            <li key={review.id} className="border p-4 rounded-md">
+            <li
+              key={review.id}
+              className="border p-4 rounded-md aspect-w-1 aspect-h-1"
+            >
               <p className="font-semibold">
                 {review.title} by {review.author}
               </p>
@@ -149,7 +152,7 @@ const Reviewbook = () => {
       <button
         onClick={gotouserpage}
         type="submit"
-        className="mt-10 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md transition-colors uppercase block ml-4 text-center"
+        className="mt-5 mb-10 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md transition-colors uppercase block ml-4 text-center"
       >
         Prev Page
       </button>

@@ -46,7 +46,10 @@ const Adminpage = () => {
       <div className="mb-8">
         <h2 className="text-3xl font-semibold mt-10 mb-4">Book Management</h2>
         <label className="w-[50vw] pb-5" htmlFor="search">
-          <h2 className="mt-10">Search data</h2>
+          <h2 className="mt-10">
+            Search data <p>(By title,author,genre)</p>
+          </h2>
+
           <input
             type="text"
             name="search"
@@ -61,7 +64,7 @@ const Adminpage = () => {
             <tr className="bg-gray-300">
               <th className="py-2 px-4 border">Title</th>
               <th className="py-2 px-4 border">Author</th>
-              <th className="py-2 px-4 border">Subject</th>
+              <th className="py-2 px-4 border">Genre</th>
               <th className="py-2 px-4 border">Publish date</th>
               <th className="py-2 px-4 border">Cost</th>
               <th className="py-2 px-4 border">Quantity</th>
