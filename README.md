@@ -25,6 +25,7 @@ List any required software, tools, or global dependencies such as Node.js, Pytho
 Describe how to clone the repository and install project dependencies. For example:
 
 ```bash
-git clone https://yourprojectrepository.com
-cd your_project_directory
+git clone https://github.com/Balajisiv03/library-management.git
+cd client for frontend
+cd server for backend
 npm install
