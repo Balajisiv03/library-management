@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Rating from "react-rating-stars-component";
 
 const Reviewbook = () => {
+  const [reviewscontent,setNewReviewContent]=useState([false]);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
     title: "",
@@ -26,6 +27,7 @@ const Reviewbook = () => {
       })
       .catch((error) => {
         console.error("Error fetching reviews:", error);
+        
       });
   }, []);
 
@@ -42,6 +44,7 @@ const Reviewbook = () => {
             id: response.data.reviewId,
             ...newReview,
             createdAt: new Date().toLocaleString(),
+
           },
         ]);
         setNewReview({ title: "", author: "", review: "", rating: 0 });

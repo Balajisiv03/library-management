@@ -93,7 +93,7 @@ const Adminpage = () => {
                   <td className="py-2 px-4 border text-center">
                     {formatDate(book.pdate)}
                   </td>
-                  <td className="py-2 px-4 border text-center">{book.cost}</td>
+                  <td className="py-3 px-4 border text-center">{book.cost}</td>
                   <td className="py-2 px-4 border text-center">
                     {book.quantity}
                   </td>
